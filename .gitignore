@@ -1,0 +1,14 @@
+# node modules
+node_modules/
+
+# env
+.env
+
+# backend
+backend/node_modules/
+backend/uploads/
+backend/src/uploads/
+
+# frontend
+frontend/yt-clone/node_modules/
+frontend/yt-clone/dist/
