@@ -19,8 +19,8 @@ const Auth = () => {
     }
 
     const url = isLogin
-      ? "http://localhost:5000/api/auth/login"
-      : "http://localhost:5000/api/auth/signup";
+      ? `${import.meta.env.VITE_API_URL}/api/auth/login`
+      : `${import.meta.env.VITE_API_URL}/api/auth/signup`;
 
     const body = isLogin
       ? { email, password }
@@ -49,19 +49,15 @@ const Auth = () => {
   return (
     <div className="min-h-[calc(100vh-56px)] flex items-center justify-center">
       <div className="w-full max-w-md bg-black border border-gray-800 rounded-xl p-6">
-
         <h1 className="text-xl font-semibold text-center mb-1">
           {isLogin ? "Sign in" : "Create your account"}
         </h1>
 
         <p className="text-sm text-gray-400 text-center mb-6">
-          {isLogin
-            ? "to continue to YouTube"
-            : "to start uploading videos"}
+          {isLogin ? "to continue to YouTube" : "to start uploading videos"}
         </p>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
-
           {!isLogin && (
             <input
               type="text"
@@ -121,7 +117,6 @@ const Auth = () => {
             </p>
           )}
         </div>
-
       </div>
     </div>
   );
