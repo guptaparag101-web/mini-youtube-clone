@@ -35,13 +35,16 @@ const Upload = () => {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/api/videos/upload", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/videos/upload`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
 
       const data = await res.json();
 
@@ -61,15 +64,12 @@ const Upload = () => {
   return (
     <div className="min-h-[calc(100vh-56px)] flex items-center justify-center">
       <div className="w-full max-w-xl bg-black border border-gray-800 rounded-xl p-6">
-
         <h1 className="text-xl font-semibold mb-1">Upload video</h1>
         <p className="text-sm text-gray-400 mb-6">
           Share your content with the world
         </p>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
-
-          {/* TITLE */}
           <input
             type="text"
             placeholder="Video title"
@@ -78,7 +78,6 @@ const Upload = () => {
             className="w-full bg-black border border-gray-700 rounded px-4 py-2 text-sm outline-none focus:border-blue-500"
           />
 
-          {/* DESCRIPTION */}
           <textarea
             rows="4"
             placeholder="Description"
@@ -87,7 +86,6 @@ const Upload = () => {
             className="w-full bg-black border border-gray-700 rounded px-4 py-2 text-sm outline-none resize-none focus:border-blue-500"
           />
 
-          {/* THUMBNAIL */}
           <div>
             <label className="block text-sm text-gray-400 mb-1">
               Thumbnail
@@ -100,7 +98,6 @@ const Upload = () => {
             />
           </div>
 
-          {/* VIDEO */}
           <div>
             <label className="block text-sm text-gray-400 mb-1">
               Video file
@@ -113,7 +110,6 @@ const Upload = () => {
             />
           </div>
 
-          {/* SUBMIT */}
           <button
             type="submit"
             disabled={loading}
@@ -121,7 +117,6 @@ const Upload = () => {
           >
             {loading ? "Uploading..." : "Upload"}
           </button>
-
         </form>
       </div>
     </div>

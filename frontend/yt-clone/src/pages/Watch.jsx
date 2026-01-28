@@ -8,19 +8,17 @@ const Watch = () => {
   const [video, setVideo] = useState(null);
   const [suggested, setSuggested] = useState([]);
 
-  
   useEffect(() => {
-    fetch(`http://localhost:5000/api/videos/${id}`)
-      .then(res => res.json())
+    fetch(`${import.meta.env.VITE_API_URL}/api/videos/${id}`)
+      .then((res) => res.json())
       .then(setVideo)
       .catch(console.error);
   }, [id]);
 
-  
   useEffect(() => {
-    fetch("http://localhost:5000/api/videos")
-      .then(res => res.json())
-      .then(data => setSuggested(data.filter(v => v._id !== id)))
+    fetch(`${import.meta.env.VITE_API_URL}/api/videos`)
+      .then((res) => res.json())
+      .then((data) => setSuggested(data.filter((v) => v._id !== id)))
       .catch(console.error);
   }, [id]);
 
@@ -34,51 +32,48 @@ const Watch = () => {
 
   return (
     <div className="flex flex-col lg:flex-row gap-6">
-
-     
+      {/* MAIN VIDEO */}
       <div className="flex-1">
-
-       
         <video
-          src={`http://localhost:5000/${video.videoUrl}`}
+          src={`${import.meta.env.VITE_API_URL}/${video.videoUrl}`}
           controls
           className="w-full aspect-video rounded-xl bg-black"
         >
           Your browser does not support video playback.
         </video>
 
-        <div className="px-4 mt-3"> <p className="text-base font-semibold text-gray-800"> {video.channelName || "Unknown Channel"} </p> </div>
-       
-       <div className="flex justify-between items-center gap-4 px-4 py-2 border-b border-gray-200">
-  
-  <div className="flex-1">
-    <h1 className="text-lg font-semibold mt-2">{video.title}</h1>
-    <p className="text-sm text-gray-500 mt-1">
-      {video.description || "No description"}
-    </p>
-  </div>
+        <div className="px-4 mt-3">
+          <p className="text-base font-semibold text-gray-800">
+            {video.channelName || "Unknown Channel"}
+          </p>
+        </div>
 
-  
-  <div className="flex-shrink-0">
-    <button className="px-4 py-1 border border-gray-300 rounded-md bg-white text-black hover:bg-gray-100 transition">
-      Subscribe
-    </button>
-  </div>
-</div>
+        <div className="flex justify-between items-center gap-4 px-4 py-2 border-b border-gray-200">
+          <div className="flex-1">
+            <h1 className="text-lg font-semibold mt-2">{video.title}</h1>
+            <p className="text-sm text-gray-500 mt-1">
+              {video.description || "No description"}
+            </p>
+          </div>
 
-        
+          <div className="flex-shrink-0">
+            <button className="px-4 py-1 border border-gray-300 rounded-md bg-white text-black hover:bg-gray-100 transition">
+              Subscribe
+            </button>
+          </div>
+        </div>
       </div>
 
-      
+      {/* SUGGESTED VIDEOS */}
       <div className="w-full lg:w-[360px] space-y-4">
-        {suggested.map(v => (
+        {suggested.map((v) => (
           <div
             key={v._id}
             onClick={() => navigate(`/watch/${v._id}`)}
             className="flex gap-3 cursor-pointer"
           >
             <img
-              src={`http://localhost:5000/${v.thumbnailUrl}`}
+              src={`${import.meta.env.VITE_API_URL}/${v.thumbnailUrl}`}
               alt={v.title}
               className="w-40 h-24 rounded-lg object-cover"
             />
@@ -91,7 +86,6 @@ const Watch = () => {
           </div>
         ))}
       </div>
-
     </div>
   );
 };

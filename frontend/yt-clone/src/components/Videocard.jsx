@@ -1,4 +1,3 @@
-import { BsThreeDotsVertical } from "react-icons/bs";
 
 const VideoCard = ({ video }) => {
   if (!video) return null;
