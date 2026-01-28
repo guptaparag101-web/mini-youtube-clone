@@ -5,7 +5,6 @@ const generateToken = require("../utils/generateToken");
 const signup = async (req, res) => {
   try {
     const { email, password, channelName } = req.body;
-
     if (!email || !password || !channelName) {
       return res.status(400).json({ message: "All fields required" });
     }
@@ -16,28 +15,26 @@ const signup = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = await User.create({
-      name: channelName,       
+      name: channelName,
       email,
       password: hashedPassword,
       channelName,
     });
 
-    res.status(201).json({
-      token: generateToken(user),
+    return res.status(201).json({
+      token: generateToken(user._id),
       user: {
         id: user._id,
         name: user.name,
         channelName: user.channelName,
       },
     });
-  } catch (error) {
-    console.error(error); 
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Signup failed" });
   }
 };
-
 
 const login = async (req, res) => {
   try {
@@ -53,15 +50,16 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    res.json({
-      token: generateToken(user),
+    return res.json({
+      token: generateToken(user._id),
       user: {
         id: user._id,
         name: user.name,
-        channelName: user.channelName
-      }
+        channelName: user.channelName,
+      },
     });
-  } catch (error) {
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Login failed" });
   }
 };

@@ -4,7 +4,18 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://mini-youtube-clone-bsaw25ukw-guptaparag101-webs-projects.vercel.app"
+    ],
+    credentials: true
+  })
+);
+
+
+
 app.use(express.json());
 
 
