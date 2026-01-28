@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import VideoCard from "../components/videocard";
+import VideoCard from "../components/VideoCard";
 
 const Home = () => {
   const [videos, setVideos] = useState([]);
