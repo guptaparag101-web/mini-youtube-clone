@@ -1,3 +1,4 @@
+const cloudinary = require("../config/cloudinary");
 const Video = require("../models/Video.model");
 
 exports.uploadVideo = async (req, res) => {
@@ -6,28 +7,37 @@ exports.uploadVideo = async (req, res) => {
       return res.status(400).json({ message: "Files missing" });
     }
 
+    
+    const videoUpload = await cloudinary.uploader.upload(
+      `data:${req.files.video[0].mimetype};base64,${req.files.video[0].buffer.toString("base64")}`,
+      {
+        resource_type: "video",
+        folder: "yt-clone/videos",
+      }
+    );
+
+    // Upload THUMBNAIL to Cloudinary
+    const thumbnailUpload = await cloudinary.uploader.upload(
+      `data:${req.files.thumbnail[0].mimetype};base64,${req.files.thumbnail[0].buffer.toString("base64")}`,
+      {
+        resource_type: "image",
+        folder: "yt-clone/thumbnails",
+      }
+    );
+
+    
     const video = await Video.create({
       title: req.body.title,
       description: req.body.description,
-      videoUrl: req.files.video[0].path,
-      thumbnailUrl: req.files.thumbnail[0].path,
+      videoUrl: videoUpload.secure_url,       
+      thumbnailUrl: thumbnailUpload.secure_url, 
       channelName: req.user.channelName,
       user: req.user.id,
     });
 
-    res.status(201).json(video);
+    return res.status(201).json(video);
   } catch (err) {
     console.error("UPLOAD ERROR:", err);
-    res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: err.message });
   }
-};
-
-exports.getAllVideos = async (req, res) => {
-  const videos = await Video.find().sort({ createdAt: -1 });
-  res.json(videos);
-};
-
-exports.getSingleVideo = async (req, res) => {
-  const video = await Video.findById(req.params.id);
-  res.json(video);
 };
