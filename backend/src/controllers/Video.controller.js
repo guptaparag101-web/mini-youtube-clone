@@ -41,3 +41,23 @@ exports.uploadVideo = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
+exports.getAllVideos = async (req, res) => {
+  try {
+    const videos = await Video.find().sort({ createdAt: -1 });
+    return res.json(videos);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+exports.getSingleVideo = async (req, res) => {
+  try {
+    const video = await Video.findById(req.params.id);
+    if (!video) {
+      return res.status(404).json({ message: "Video not found" });
+    }
+    return res.json(video);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
