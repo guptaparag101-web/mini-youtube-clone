@@ -2,9 +2,10 @@ const Video = require("../models/Video.model");
 
 exports.uploadVideo = async (req, res) => {
   try {
-    console.log("FILES:", req.files);
+    console.log("UPLOAD BODY:", req.body);
+    console.log("UPLOAD FILES:", req.files);
 
-    if (!req.files?.video || !req.files?.thumbnail) {
+    if (!req.files || !req.files.video || !req.files.thumbnail) {
       return res.status(400).json({ message: "Files missing" });
     }
 
@@ -17,12 +18,16 @@ exports.uploadVideo = async (req, res) => {
       user: req.user.id,
     });
 
-    res.status(201).json(video);
+    return res.status(201).json(video);
   } catch (err) {
-    console.error("UPLOAD ERROR:", err);
-    res.status(500).json({ message: err.message || "Upload failed" });
+    console.error("UPLOAD ERROR FULL:", err);
+    return res.status(500).json({
+      message: "Upload failed",
+      error: err.message,
+    });
   }
 };
+
 
 
 
