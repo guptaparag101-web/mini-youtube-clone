@@ -2,16 +2,16 @@ const Video = require("../models/Video.model");
 
 exports.uploadVideo = async (req, res) => {
   try {
-    const { title, description } = req.body;
+    console.log("FILES:", req.files);
 
     if (!req.files?.video || !req.files?.thumbnail) {
       return res.status(400).json({ message: "Files missing" });
     }
 
     const video = await Video.create({
-      title,
-      description,
-      videoUrl: req.files.video[0].path,       
+      title: req.body.title,
+      description: req.body.description,
+      videoUrl: req.files.video[0].path,
       thumbnailUrl: req.files.thumbnail[0].path,
       channelName: req.user.channelName,
       user: req.user.id,
@@ -19,10 +19,11 @@ exports.uploadVideo = async (req, res) => {
 
     res.status(201).json(video);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Upload failed" });
+    console.error("UPLOAD ERROR:", err);
+    res.status(500).json({ message: err.message || "Upload failed" });
   }
 };
+
 
 
 
