@@ -8,21 +8,12 @@ exports.uploadVideo = async (req, res) => {
       return res.status(400).json({ message: "Files missing" });
     }
 
-   
-    const videoPath = req.files.video[0].path
-      .replace(/\\/g, "/")
-      .split("uploads/")[1];
-
-    const thumbnailPath = req.files.thumbnail[0].path
-      .replace(/\\/g, "/")
-      .split("uploads/")[1];
-
     const video = await Video.create({
       title,
       description,
-      videoUrl: `uploads/${videoPath}`,
-      thumbnailUrl: `uploads/${thumbnailPath}`,
-      channelName:req.user.channelName,
+      videoUrl: req.files.video[0].path,       
+      thumbnailUrl: req.files.thumbnail[0].path,
+      channelName: req.user.channelName,
       user: req.user.id,
     });
 
@@ -32,6 +23,7 @@ exports.uploadVideo = async (req, res) => {
     res.status(500).json({ message: "Upload failed" });
   }
 };
+
 
 
 

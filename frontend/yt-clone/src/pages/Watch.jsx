@@ -32,15 +32,16 @@ const Watch = () => {
 
   return (
     <div className="flex flex-col lg:flex-row gap-6">
-      {/* MAIN VIDEO */}
+      
       <div className="flex-1">
         <video
-          src={`${import.meta.env.VITE_API_URL}/${video.videoUrl}`}
-          controls
-          className="w-full aspect-video rounded-xl bg-black"
-        >
-          Your browser does not support video playback.
-        </video>
+  src={video.videoUrl}
+  controls
+  className="w-full aspect-video rounded-xl bg-black"
+>
+  Your browser does not support video playback.
+</video>
+
 
         <div className="px-4 mt-3">
           <p className="text-base font-semibold text-gray-800">
@@ -64,7 +65,7 @@ const Watch = () => {
         </div>
       </div>
 
-      {/* SUGGESTED VIDEOS */}
+      
       <div className="w-full lg:w-[360px] space-y-4">
         {suggested.map((v) => (
           <div
@@ -73,10 +74,11 @@ const Watch = () => {
             className="flex gap-3 cursor-pointer"
           >
             <img
-              src={`${import.meta.env.VITE_API_URL}/${v.thumbnailUrl}`}
-              alt={v.title}
-              className="w-40 h-24 rounded-lg object-cover"
-            />
+  src={v.thumbnailUrl}
+  alt={v.title}
+  className="w-40 h-24 rounded-lg object-cover"
+/>
+
 
             <div>
               <p className="text-sm font-semibold line-clamp-2">
